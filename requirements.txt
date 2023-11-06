@@ -1,0 +1,14 @@
+pytest
+pytest-asyncio
+anthropic
+openai
+langchain
+langsmith
+GitPython
+chromadb
+python-dotenv
+lxml
+html2text
+tiktoken
+bs4
+Flask
