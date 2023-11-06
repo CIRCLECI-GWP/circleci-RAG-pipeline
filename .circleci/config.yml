@@ -1,0 +1,48 @@
+version: 2.1
+
+# Define custom commands for this config
+# See https://circleci.com/docs/reusing-config/#authoring-reusable-commands
+commands:
+  check-python:
+    steps:
+      - run:
+          command: source ./venv/bin/activate && python3 --version
+          name: Check Python version
+      - run:
+          command: source ./venv/bin/activate && pip3 --version
+          name: Check Pip version
+  install-venv:
+    steps:
+      - run:
+          command: source ./tools/install-venv.sh
+          name: Enter virtual env and install dependencies
+
+
+# Define custom jobs for this config
+# See: https://circleci.com/docs/jobs-steps/
+jobs:
+  run-unit-tests:
+    machine: # Executor type
+      # For a full list of Linux VM execution environments, see
+      # https://circleci.com/developer/images?imageType=machine
+      image: ubuntu-2204:2023.07.2
+    steps:
+      - checkout      # Check out the code in the project directory
+      - install-venv
+      - check-python  # Invoke command "check-python" after entering venv
+      - run:
+          command: source ./venv/bin/activate && pytest -s
+          name: Test rag unit tests
+
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/workflows/
+workflows:
+  integration-tests:
+    jobs:
+      - run-unit-tests:
+          context: rag-context  # This contains environment variables (https://circleci.com/docs/contexts/)
+          filters:
+            branches:
+              only:
+                - rag-pipeline # Only run the job when this branch is updated
