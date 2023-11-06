@@ -52,6 +52,5 @@ Ask the application different questions by changing the `message` field in the c
 # Where to go from here
 More detailed tutorials showing how to test and run this application are available here:
 
- - TODO: link 1
- - TODO: link 2
-
+ - [Build and evaluate LLM-powered apps with LangChain and CircleCI](https://circleci.com/blog/build-evaluate-llm-apps-with-langchain/)
+ - (Coming soon) Deploy and re-evaluate LLM-powered apps with LangSmith and CircleCI
