@@ -45,8 +45,8 @@ class AssistantChain:
     def get_chain(self):
         return self.chain
 
-class DocumantationChain:
-    """DocumantationChain
+class DocumentationChain:
+    """DocumentationChain
     Based on a user's prompt, this will retrieve the most similar chunks
     of text from the vector store (using retrievers) and add this information
     to the prompt, before supplying the prompt to the language model.
