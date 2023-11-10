@@ -29,7 +29,7 @@ def chain_1():
 
 @pytest.fixture
 def chain_2():
-    chain = chains.DocumantationChain("https://docs.smith.langchain.com").get_chain()
+    chain = chains.DocumentationChain("https://docs.smith.langchain.com").get_chain()
 
     return chain
 
