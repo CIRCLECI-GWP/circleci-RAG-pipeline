@@ -33,7 +33,31 @@ jobs:
       - run:
           command: source ./venv/bin/activate && pytest -s
           name: Test rag unit tests
-
+# For use in part 2 of the tutorial - uncomment to use
+# See https://circleci.com/blog/deploy-reevaluate-llm-apps-langsmith/
+#  run-nightly-tests:
+#    machine: # Executor type
+#      # For a full list of Linux VM execution environments, see
+#      # https://circleci.com/developer/images?imageType=machine
+#      image: ubuntu-2204:2023.07.2
+#    steps:
+#      - checkout      # Check out the code in the project directory
+#      - install-venv
+#      - check-python  # Invoke command "check-python" after entering venv
+#      - run:
+#          command: source ./venv/bin/activate && pytest -s
+#          name: Run nightly tests
+#  deploy:
+#    # For running on CircleCI's self-hosted runners
+#    machine: true
+#    resource_class: user/sample-project # TODO add self-hosted runner resource class details
+#    steps:
+#      - checkout
+#      - install-venv
+#      - check-python  # Invoke command "check-python" after entering venv
+#     - run:
+#          command: timeout --preserve-status --foreground 90 bash -c "source ./venv/bin/activate ; flask --app rag/app run" || true  # Run the server for 90 seconds to test
+#          name: Deploy application on self-hosted runner
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/workflows/
@@ -46,3 +70,25 @@ workflows:
             branches:
               only:
                 - rag-pipeline # Only run the job when this branch is updated
+# For use in part 2 of the tutorial - uncomment to use
+# See https://circleci.com/blog/deploy-reevaluate-llm-apps-langsmith/
+#  deployment-tests:
+#    # Trigger on a schedule or when retrain branch is updated
+#    triggers:
+#      - schedule:
+#          cron: "0 0 * * *" # Daily at midnight
+#          filters:
+#            branches:
+#              only:
+#                - main
+#    jobs:
+#      - run-nightly-tests:
+#          context: rag-context  # This contains environment variables
+#      - hold: # A job that will require manual approval in the CircleCI web application.
+#          requires: 
+#            - run-nightly-tests
+#          type: approval # This key-value pair will set your workflow to a status of "On Hold"
+#      - deploy:
+#          context: rag-context  # This contains environment variables
+#          requires:
+#            - hold
